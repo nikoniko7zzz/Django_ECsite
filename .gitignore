@@ -1,0 +1,4 @@
+# 特定のディレクトリを無視
+/secrets/
+/static/
+db.sqlite3

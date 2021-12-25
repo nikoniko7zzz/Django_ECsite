@@ -1,0 +1,4 @@
+Django==3.2.9
+django-environ==0.8.1
+Pillow==8.4.0
+stripe==2.60.0
