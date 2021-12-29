@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="container my-5">
+<div class="container">
   <div class="row ">
-    <div class="col-12">
+    <div class="col s12 m6 offset-m3">
       <h1>
         {% if 'login' in request.path %}
         Login
@@ -13,48 +13,36 @@
       </h1>
       <form method="POST">
         {% csrf_token %}
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <input
-              type="text"
-              class="form-control"
-              name="username"
-              placeholder="Username"
-            >
+        <div class="row">
+          <div class="input-field">
+            <input value="{{user.username}}" placeholder="Username" type="text" class="validate" name="username">
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <input
-              type="email"
-              class="form-control"
-              name="email"
-              placeholder="Email"
-              required
-            >
+
+        <div class="row">
+          <div class="input-field">
+            <input value="{{user.email}}" placeholder="Email" type="email" class="validate" name="email" required>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <input
-              type="password"
-              class="form-control"
-              name="password"
-              placeholder="Password"
-              required
-            >
+
+        <div class="row">
+          <div class="input-field">
+            <input value="{{user.email}}" placeholder="Password" type="password" class="validate" name="password" required>
           </div>
         </div>
-        <button
-          class="btn btn-info btm-sm"
-          type="submit"
-        >
-          {% if 'login' in request.path %}
-          Login
-          {% elif 'signup' in request.path %}
-          Signup
-          {% endif %}
-        </button>
+
+        <div class="row">
+          <div class="center">
+            <button class="btn waves-effect waves-light" type="submit" name="action">
+              {% if 'login' in request.path %}
+              Login
+              {% elif 'signup' in request.path %}
+              Signup
+              {% endif %}
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   </div>

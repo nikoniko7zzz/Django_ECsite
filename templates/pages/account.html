@@ -1,45 +1,35 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
-<div class="container my-5">
+<div class="container">
   <div class="row">
-    <div class="col-12">
+    <div class="col s12 m6 offset-m3">
       <h1>Account</h1>
       <form method="POST">
         {% csrf_token %}
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label>Username</label>
-            <input
-              class="form-control"
-              type="text"
-              name="username"
-              placeholder="name"
-              value="{{user.username}}"
-            >
+        <div class="row">
+          <div class="input-field">
+            <input value="{{user.username}}" placeholder="name" type="text" class="validate" name="username">
+            <label for="name">Name</label>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label>Email</label>
-            <input
-              class="form-control"
-              type="email"
-              name="email"
-              placeholder="Email"
-              value="{{user.email}}"
-              required
-            >
+
+        <div class="row">
+          <div class="input-field">
+            <input value="{{user.email}}" placeholder="Email" type="email" class="validate" name="email">
+            <label for="email">Email</label>
           </div>
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary"
-        >Save</button>
+
+        <div class="row">
+          <div class="center">
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
 </div>
-
 {% endblock %}

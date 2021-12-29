@@ -1,27 +1,58 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block main %}
 
-{% include 'snippets/headline.html' %}
+  {# {% include 'snippets/headline.html' %} コメントアウト #}
 
-<div class="container px-5" style="max-width:100%">
 
-  <div class="row my-5">
-    {% for object in POPULAR_ITEMS %}
-    {% if forloop.counter < 4 %} <div class="col-12 col-lg-4 my-3">
-      <button type="button" class="btn btn-danger rounded-0">{{ forloop.counter }}番人気</button>
-      {% include 'snippets/item_box.html' %}
+  <div class="row">
+    <div class="container">
+      <div class="col s12 m4 l4">
+        <h5 class="black-text" style="text-align: center;">
+          <a href="#menu">Massage Menu</a>
+        </h5>
+      </div>
+      <div class="col s12 m4 l4">
+        <h5 class="black-text" style="text-align: center;">
+          <a href="#goods">Goods</a>
+        </h5>
+      </div>
+      <div class="col s12 m4 l4">
+        <h5 class="black-text" style="text-align: center;">
+          <a href="#information">Information</a>
+        </h5>
+      </div>
+    </div>
   </div>
-  {% endif %}
-  {% endfor %}
-</div>
 
-<div class="row my-5">
-  {% for object in object_list %}
-  <div class="col-12 col-lg-3 my-3">
-    {% include 'snippets/item_box.html' %}
+  <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'items/top/top5.jpg'%}"></div>
   </div>
-  {% endfor %}
-</div>
-</div>
+
+
+  <div id="menu"></div>
+  {% include 'snippets/menu.html' %}
+
+
+  <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'items/top/top1.jpg'%}"></div>
+  </div>
+
+
+  <div id="goods"></div>
+  {% include 'snippets/index_item.html' %}
+
+
+  <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'items/top/top2.jpg'%}"></div>
+  </div>
+
+
+  <div id="information"></div>
+  {% include 'snippets/information.html' %}
+
+
+
 {% endblock %}
+

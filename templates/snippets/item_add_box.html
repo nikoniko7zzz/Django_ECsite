@@ -1,48 +1,72 @@
-<div class="border">
-  <img
-    src="/{{object.image}}"
-    width="100%"
-    class=" bg-white"
-  >
+{% comment '<div class="border"> ここからコメントアウト' %}
+  <img src="/{{object.image}}" width="100%" class=" bg-white">
   <div class="bg-light text-center text-secondary overflow-hidden">
     <div class="my-2 py-2">
-      <h2 class="lead">{{object.name}} - ¥{{object.price}}</h2>
-      <form
-        action="/cart/add/"
-        method="POST"
-        class="p-2"
-      >
+      <p class="lead">{{object.name}} - ¥{{object.price}}</p>
+
+      <form action="/cart/add/" method="POST" class="p-2">
         {% csrf_token %}
-        <input
-          type="hidden"
-          name="item_pk"
-          value="{{object.pk}}"
-        >
+        <input type="hidden" name="item_pk" value="{{object.pk}}">
         <div class="form-row align-items-center ">
           <div class="col-md-7">
-            <input
-              type="number"
-              class="form-control form-control-sm"
-              name="quantity"
-              value="1"
-            >
+            <input type="number" class="form-control form-control-sm" name="quantity" value="1">
           </div>
           <div class="col-md-5">
             {% if object.stock == 0 %}
-            <button
-              type="submit"
-              class="btn btn-sm btn-outline-warning"
-              disabled
-            >売り切れ</button>
+            <button type="submit" class="btn btn-sm btn-outline-warning" disabled>売り切れ</button>
             {% else %}
-            <button
-              type="submit"
-              class="btn btn-sm btn-outline-success"
-            >Add to cart</button>
+            <button type="submit" class="btn btn-sm btn-outline-success">Add to cart</button>
             {% endif %}
           </div>
         </div>
       </form>
+
     </div>
   </div>
 </div>
+{% endcomment %}
+
+<div class="card">
+  <div class="card-image">
+    <a href="/items/{{object.pk}}/">
+      <img src="/{{object.image}}">
+    </a>
+  </div>
+
+
+  <div class="card-content">
+    <p>{{object.name}}</p>
+    <p class="right">¥{{object.price}}</p>
+    <br>
+
+    <div>
+      <form action="/cart/add/" method="POST" class="p-2">
+        {% csrf_token %}
+        <input type="hidden" name="item_pk" value="{{object.pk}}">
+        <!-- <div class="form-row align-items-center "> -->
+          <!-- <div class="col s6 right"> -->
+            <input type="number" class="input-field" name="quantity" value="1">
+          <!-- </div> -->
+          <div>
+            {% if object.stock == 0 %}
+            <button type="submit" class="waves-effect waves-light btn" disabled><i class="material-icons left">remove_shopping_cart</i>売り切れ</button>
+            {% else %}
+            <button type="submit" class="waves-effect waves-light btn"><i class="material-icons left">shopping_cart</i>カートに入れる</button>
+            {% endif %}
+          </div>
+        <!-- </div> -->
+      </form>
+    </div>
+  </div>
+</div>
+
+{% comment 'ここからコメントアウト' %}
+          <a class="waves-effect waves-light btn right"><i class="material-icons left">remove_shopping_cart</i>売り切れ</a>
+          {% else %}
+          <a class="waves-effect waves-light btn right"><i class="material-icons left">shopping_cart</i>カートに入れる</a>
+{% endcomment %}
+
+
+
+
+
