@@ -33,6 +33,20 @@
   .parallax-container {
     height: 600px;
   }
+
+  /* リンクの色が別の色にさせない
+  a,
+  a:visited,
+  a:hover,
+  a:active {
+    color: inherit;
+  } */
+
+  /* ページネーションのアクティブ時の背景色をうすい青にに変える */
+  .pagination li.active {
+    background-color: #58A9EF;
+  }
+
   </style>
 
 </head>
@@ -40,14 +54,14 @@
 <body>
   {% load static %}
 
-  <header>
+  <header style="position: fixed; width: 100vw; z-index: 99;">
     {% block header %}
-    {% include 'snippets/messages.html' %}
     {% include 'snippets/header.html' %}
+    {% include 'snippets/messages.html' %}
     {% endblock %}
   </header>
 
-  <main>
+  <main style="margin-top: 56px;">
     {% block main %}
     {% endblock %}
   </main>

@@ -38,10 +38,29 @@ env.read_env(root('.env.dev'))
 SECRET_KEY = env.str('SECRET_KEY')  # 変更
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG')  # 変更
+# DEBUG = env.bool('DEBUG')  # 変更
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')  # 変更
 
+
+
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')  # 変更
+
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['*'] # 編集
+
+# DEBUGの下に追加
+if DEBUG:
+    # 開発環境
+    import yaml
+    with open(os.path.join(BASE_DIR, 'secrets', 'secret_dev.yaml')) as file:
+        objs = yaml.safe_load(file)
+        for obj in objs:
+            os.environ[obj] = objs[obj] #yamlのキーとバリュー
+else:
+    # 本番環境
+    pass
 
 # Application definition
 
@@ -168,8 +187,16 @@ MESSAGE_TAGS = {
 }
 
 # custom_context_processors
-TITLE = 'Self love'
+TITLE = 'Sakupand'
 
+# --------- Gmail 送信設定 ---------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER'] # 環境変数から読み込む
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+# --------- Gmail 送信設定 ---------
 
 
 

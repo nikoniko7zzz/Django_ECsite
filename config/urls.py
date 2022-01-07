@@ -28,6 +28,10 @@ urlpatterns = [
     path('account/', views.AccountUpdateView.as_view()),
     path('profile/', views.ProfileUpdateView.as_view()),
 
+    # Contact
+    # path('contact/', views.ContactView.as_view()), # 追記
+    path('contact/', views.contact),
+
     # Order
     path('orders/<str:pk>/', views.OrderDetailView.as_view()),
     path('orders/', views.OrderIndexView.as_view()),
@@ -46,6 +50,9 @@ urlpatterns = [
     path('items/<str:pk>/', views.ItemDetailView.as_view()),  # アイテム詳細ページ
     path('categories/<str:pk>/', views.CategoryListView.as_view()), # 特定のカテゴリのページ カテゴリのpk(slug)
     path('tags/<str:pk>/', views.TagListView.as_view()),
+
+    # Menu
+    path('menu/', views.MenuListView.as_view()),
 
     path('', views.IndexListView.as_view()),  # トップページ
 ]

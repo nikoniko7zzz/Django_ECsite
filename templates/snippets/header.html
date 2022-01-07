@@ -1,11 +1,11 @@
 <div>
   <nav class="blue darken-4">
     <div class="container">
-      <a href="#" class="brand-logo">{{ TITLE }}</a>
+      <a href="/" class="brand-logo">{{ TITLE }}</a>
       {# <a href="#" class="brand-logo"><i class="material-icons">cloud</i>{{ TITLE }}</a> #}
       <ul class="right hide-on-med-and-down">
         {% if user.is_superuser %}
-        <li><a href="/admin">管理者画面へ</a></li>
+        <li><a href="/admin/">管理者画面へ</a></li>
         {% endif %}
         <li><a href="/orders/">Orders</a></li>
         <li><a href="/profile/">Profile</a></li>
