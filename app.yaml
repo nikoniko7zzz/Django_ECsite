@@ -1,0 +1,20 @@
+#================
+# GAEに必要な app.yaml ファイル例
+#================
+runtime: python39
+instance_class: F1
+env: standard
+service: default
+# プロジェクト名.wsgi:application
+entrypoint: gunicorn -b :$PORT config.wsgi:application
+
+# 下記 includes で環境変数用のsecret.yamlファイルのpathを指定しています。
+includes:
+  - secrets/secret.yaml
+
+handlers:
+  - url: /static
+    static_dir: staticfiles/
+  - url: .*
+    secure: always
+    script: auto

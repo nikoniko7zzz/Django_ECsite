@@ -20,47 +20,76 @@ from django.contrib import messages # 追加
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-
 root = environ.Path(BASE_DIR / 'secrets')
+env.read_env(root('.env'))
 
-# ここはif文で出し分ける
-# 本番環境用
-# env.read_env(root('.env.prod'))
-
-# 開発環境用
-env.read_env(root('.env.dev'))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '%i$$xt4l7qb_!*(3u4ada3c^+posa(5o#t6%^90bdc*e2w_5c('
-SECRET_KEY = env.str('SECRET_KEY')  # 変更
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env.bool('DEBUG')  # 変更
-
-
-
-
-# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')  # 変更
-
-
-DEBUG = True
-
-ALLOWED_HOSTS = ['*'] # 編集
-
-# DEBUGの下に追加
-if DEBUG:
+DEBUG = False
+if os.getenv('GAE_APPLICATION', None):
+    # GAE 本番環境
+    ALLOWED_HOSTS = ['selflove2022.an.r.appspot.com',]
+else:
     # 開発環境
+    DEBUG = True
+    ALLOWED_HOSTS = ['*']
     import yaml
     with open(os.path.join(BASE_DIR, 'secrets', 'secret_dev.yaml')) as file:
         objs = yaml.safe_load(file)
         for obj in objs:
             os.environ[obj] = objs[obj] #yamlのキーとバリュー
+
+
+# # ここはif文で出し分ける
+# # 本番環境用
+# # env.read_env(root('.env.prod'))
+
+# # 開発環境用
+# env.read_env(root('.env.dev'))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env.str('SECRET_KEY')  # 変更
+
+# SECURITY WARNING: don't run with debug turned on in production!
+if os.getenv('GAE_APPLICATION', None):
+# GAE 本番環境
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USERNAME'],
+            'PASSWORD': os.environ['DB_USEPASS'],
+            'HOST': '/cloudsql/{}'.format(os.environ['DB_CONNECTION']),
+            #    'SECRET_KEY': os.environ['SECRET_KEY'],
+            # 'STRIPE_API_SECRET_KEY': os.environ['STRIPE_API_SECRET_KEY'],
+        }
+    }
 else:
-    # 本番環境
-    pass
+# 開発環境# 事前に./cloud_sql_proxyを実行してプロキシ経由でアクセスできるようにする必要がある。
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USERNAME'],
+            'PASSWORD': os.environ['DB_USEPASS'],
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            #    'SECRET_KEY': os.environ['SECRET_KEY'],
+            # 'STRIPE_API_SECRET_KEY': os.environ['STRIPE_API_SECRET_KEY'],
+        }
+    }
+    '''
+    # 開発環境 sqlite3
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    '''
+
 
 # Application definition
 
@@ -110,12 +139,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -155,16 +184,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static'] #追加
+
+# --- STATIC 設定 ---
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #追加
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #追加
+# --- STATIC 設定 ---
+
+
 
 # 消費税率
 TAX_RATE = 0.1
 
-# Stripe API Key
-STRIPE_API_SECRET_KEY = env.str('STRIPE_API_SECRET_KEY')
 
-# スキーマ＆ドメイン
-MY_URL = env.str('MY_URL')
+# Stripe API Key
+STRIPE_API_SECRET_KEY = env('STRIPE_API_SECRET_KEY')
+
+# # スキーマ＆ドメイン
+# MY_URL = env.str('MY_URL')
+
 
 # カスタムユーザーモデルを使うための設定
 AUTH_USER_MODEL = 'base.User' # base.Userモデルを使う
@@ -197,8 +234,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER'] # 環境変数から読み込む
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 # --------- Gmail 送信設定 ---------
-
-
-
-# 仮想空間
-# source environment_3_9_7/bin/activate
