@@ -22,7 +22,7 @@ class ItemDetailView(DetailView):
     template_name = 'pages/item.html'
 
 
-class CategoryListView(ListView): # 今回 追加
+class CategoryListView(ListView):
     model = Item # カテゴリモデルではない 指定のカテゴリを持っているアイテム一覧
     template_name = 'pages/list.html'
     paginate_by = 4 # アイテムの表示数を指定
@@ -38,7 +38,7 @@ class CategoryListView(ListView): # 今回 追加
         return context
 
 
-class TagListView(ListView): # 今回 追加
+class TagListView(ListView):
     model = Item
     template_name = 'pages/list.html'
     paginate_by = 4

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+from io import DEFAULT_BUFFER_SIZE
 import os
 import environ # 追加
 from pathlib import Path # 追加
@@ -190,7 +191,18 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #追加
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #追加
 # --- STATIC 設定 ---
 
+# --- GCS 画像 設定 ---
+from google.oauth2 import service_account
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'secrets', os.environ['GCS_CREDENTIALS_FILENAME'])
+)
 
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+GS_BUCKET_NAME = os.environ['GCS_BUCKET_NAME']
+
+GS_PROJECT_ID = os.environ['GCS_PROJECT_ID']
+# --- GCS 画像 設定 ---
 
 # 消費税率
 TAX_RATE = 0.1

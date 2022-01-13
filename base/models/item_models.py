@@ -8,10 +8,11 @@ def create_id():
 
 def upload_image_to(instance, filename):
     item_id = str(instance.id) # =Item.id
-		# item_id = instance.id　？？？？
-    return os.path.join('static', 'items', item_id, filename)
+    # return os.path.join('static', 'items', item_id, filename) # 開発環境
+    return os.path.join('items', item_id, filename) # GCPデプロイ環境
     # パス static/items/item_id/filename(ファイル名)
     # デプロイの時はパスを変える
+
 
 
 class Tag(models.Model):
