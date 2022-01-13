@@ -3,20 +3,23 @@
 
     <h1>Goods</h1>
 
-
-
-
+    {# よく売れているもの4つを表示 #}
+    <p>ランキング</p>
     <div class="row">
       {% for object in POPULAR_ITEMS %}
-      {% if forloop.counter < 5 %}
-        <div class="col s6 m3">
-          <div class="chip">{{ forloop.counter }}番人気</div>
-          {% include 'snippets/item_box.html' %}
-        </div>
+        {% if forloop.counter < 5 %}
+          <div class="col s6 m3">
+            <p>No. {{ forloop.counter }}</p>
+            {% include 'snippets/item_box.html' %}
+          </div>
         {% endif %}
       {% endfor %}
     </div>
 
+
+    {% include 'snippets/category_tag_lists.html' %}
+
+    {# 商品リストを表示 #}
     <div class="row">
       {% for object in object_list %}
       <div class="col s6 m3">

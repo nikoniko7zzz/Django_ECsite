@@ -1,0 +1,24 @@
+<div style="margin-left:12px;">
+  <div class="row">
+    <br>
+    {% for category in CATEGORY_LISTS %}
+      <div class="chip">
+        <a href="/categories/{{category.slug}}/" class="badge badge-pill badge-light">
+          {{category}}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    {% for tag in TAG_LISTS %}
+    <div class="chip">
+      <a href="/tags/{{tag.slug}}/" class="badge badge-pill badge-light">
+        {{tag}}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# comment {% if request.GET.categorys_group == category.pk %}checked{% endif %} #}
