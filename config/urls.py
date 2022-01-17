@@ -21,6 +21,11 @@ from django.contrib.auth.views import LogoutView # 追加 viewは自作せずdja
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # headerからのパス
+    path('massagemenu/', views.massagemenu, name='massagemenu'),
+    path('items/', views.items, name='items'),
+    path('information/', views.information, name='information'),
+
     # Account
     path('login/', views.Login.as_view()),
     path('logout/', LogoutView.as_view()),

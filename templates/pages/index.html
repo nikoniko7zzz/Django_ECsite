@@ -5,34 +5,40 @@
 
   {# {% include 'snippets/headline.html' %} コメントアウト #}
 
-
-  <div class="row">
-    <div class="container">
-      <div class="col s12 m4 l4">
-        <h5 class="black-text" style="text-align: center;">
-          <a href="#menu">Massage Menu</a>
-        </h5>
-      </div>
-      <div class="col s12 m4 l4">
-        <h5 class="black-text" style="text-align: center;">
-          <a href="#goods">Goods</a>
-        </h5>
-      </div>
-      <div class="col s12 m4 l4">
-        <h5 class="black-text" style="text-align: center;">
-          <a href="#information">Information</a>
-        </h5>
-      </div>
-    </div>
+  <div
+    style="
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background-image: url(/static/items/top/top5.jpg);
+      background-size: cover;
+      background-position: center;
+    "
+  >
+    <h1
+      style="
+        margin: 0;
+        position: absolute;
+        top: calc(50% - 0.5em);
+        width: 100%;
+        text-align: center;
+        line-height: 1;
+        font-size: 8vw;
+        font-family: Montserrat, sans-serif;
+        text-shadow: 3px 3px 0 #fff;
+      "
+    >SAKUPAND
+    </h1>
+  </div>
+  <!-- <div  class="center-align" style="padding: 2rem 0; position: absolute; top: calc(80% - 0.5em); "> -->
+  <div style="position: absolute; top: calc(80% - 0.5em); width: 100%; text-align: center;">
+    <i class="large material-icons white-text">arrow_drop_down</i>
+    <!-- <i class="large material-icons">arrow_drop_down</i> -->
   </div>
 
-  <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'items/top/top5.jpg'%}"></div>
-  </div>
 
-
-  <div id="menu"></div>
-  {% include 'snippets/menu.html' %}
+  <p id="menu" style="padding-top: 56px;"></p>
+  {% include 'pages/index_menu.html' %}
 
 
   <div class="parallax-container">
@@ -40,8 +46,8 @@
   </div>
 
 
-  <div id="goods"></div>
-  {% include 'snippets/index_item.html' %}
+  <p id="goods" style="padding-top: 56px;"></p>
+  {% include 'pages/index_items.html' %}
 
 
   <div class="parallax-container">
@@ -49,8 +55,8 @@
   </div>
 
 
-  <div id="information"></div>
-  {% include 'snippets/information.html' %}
+  <p id="information" style="padding-top: 56px;"></p>
+  {% include 'pages/index_infor.html' %}
 
 
 

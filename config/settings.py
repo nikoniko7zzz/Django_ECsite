@@ -236,7 +236,7 @@ MESSAGE_TAGS = {
 }
 
 # custom_context_processors
-TITLE = 'Sakupand'
+TITLE = 'SAKUPAND'
 
 # --------- Gmail 送信設定 ---------
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
