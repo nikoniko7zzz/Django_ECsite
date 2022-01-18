@@ -15,6 +15,7 @@
     <nav class="blue darken-4">
       <div class="nav-wrapper container">
         <a href="/" class="brand-logo">{{ TITLE }}</a>
+        <!-- mobile-demo Trigger -->
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
         <ul class="right hide-on-med-and-down">
@@ -39,7 +40,7 @@
   </div>
 </div>
 
-<!-- sidenav用 <nav>と同じ内容 -->
+<!-- sidenav用 -->
 <ul class="sidenav" id="mobile-demo">
   <li><a href="{% url 'massagemenu' %}">Massage</a></li>
   <li><a href="{% url 'items' %}">Goods</a></li>

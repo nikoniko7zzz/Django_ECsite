@@ -91,12 +91,17 @@
       $('.collapsible').collapsible();
       $(".dropdown-trigger").dropdown({ hover: true });
     });
-  </script>
 
-  <script>
     // index.html用の写真の視差用
     const para = document.querySelectorAll('.parallax');
     M.Parallax.init(para,{});
+
+    // toast
+    {% for msg in messages %}
+    M.toast({html:'{{ msg }}', classes: 'rounded'})
+    {% endfor %}
+
+
   </script>
 </body>
 </html>
