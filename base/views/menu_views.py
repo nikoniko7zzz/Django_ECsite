@@ -1,8 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView
-# from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView
 from base.models import MenuItem, MenuCategory, MenuTag
-# from base.models import MenuItem, MenuCategory, MenuTag # 今回 追加
 
 class MenuListView(ListView):
     model = MenuItem
@@ -39,3 +37,15 @@ class MenuListView(ListView):
             results = results.filter(tags=q_tag)
 
         return results
+
+
+class MenuDetailView(DetailView):
+    model = MenuItem
+    template_name = 'pages/menu_selectList.html'
+
+
+
+
+
+
+

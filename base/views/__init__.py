@@ -6,3 +6,4 @@ from .account_views import *
 from .order_views import *
 from .contact_views import *
 from .header_views import *
+from .calendar_views import *

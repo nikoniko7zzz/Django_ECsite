@@ -6,97 +6,82 @@
   <div class="row">
     <div class="col s12 m10 offset-m1">
       <h1>Massage Menu</h1>
-      <nav>
-        <!-- <div class="nav-wrapper"> -->
-          <div class="col s12">
-            <a href="#!" class="breadcrumb">First</a>
-            <a href="#!" class="breadcrumb">Second</a>
-            <a href="#!" class="breadcrumb">Third</a>
-          </div>
-        <!-- </div> -->
-      </nav>
 
 
       <form method="get" action="" name="filter_form">
-          <div class="row" style="margin-bottom: 0;">
-              {% for category in categorys %}
-              <p class="col s6 m3 l3">
-                <label>
-                  <input
-                    type="radio"
-                    id="filter_category_{{ category.pk }}"
-                    name="categorys_group"
-                    value="{{ category.pk }}"
-                    {% if request.GET.categorys_group == category.pk %}checked{% endif %}
-                  >
-                  <span>{{ category.name }}</span>
-                </label>
-              </p>
-              {% endfor %}
-          </div>
+        <div class="row col s12 m12 l12">
 
-          <div class="row" style="margin-bottom: 0;">
-              {% for tag in tags %}
-              <p class="col s6 m3 l3">
-                <label>
-                  <input
-                    type="radio"
-                    id="filter_tag_{{ tag.pk }}"
-                    name="tags_group"
-                    value="{{ tag.pk }}"
-                    {% if request.GET.tags_group == tag.pk %}checked{% endif %}
-                  />
-                  <span>{{ tag.name }}</span>
-                </label>
-              </p>
-              {% endfor %}
-              <p class="col s6 m3 l3">
-                <label>
-                  <input
-                    type="radio"
-                    id="filter_tag_all"
-                    name="tags_group"
-                    value="all"
-                    {% if request.GET.tags_group == "all" %}checked{% endif %}
-                  />
-                  <span>全て</span>
-                </label>
-              </p>
+          <div class="col s12 m5 l5" style="margin-bottom: 0; border: solid 1px lightgray; border-radius: 10px;">
+          {% for category in categorys %}
+          <p class="col s5 m5 l5">
+            <label>
+              <input
+              type="radio"
+              id="filter_category_{{ category.pk }}"
+              name="categorys_group"
+              value="{{ category.pk }}"
+              {% if request.GET.categorys_group == category.pk %}checked{% endif %}
+              >
+              <span>{{ category.name }}</span>
+            </label>
+          </p>
+          {% endfor %}
           </div>
+        </div>
 
-          <div class="row center">
-            <button class="btn waves-effect waves-light" type="submit" name="action">検索する
-              <i class="material-icons right">search</i>
-            </button>
-          </div>
+        <div class="row" style="margin-bottom: 0;">
+          {% for tag in tags %}
+          <p class="col s6 m3 l3">
+            <label>
+              <input
+                type="radio"
+                id="filter_tag_{{ tag.pk }}"
+                name="tags_group"
+                value="{{ tag.pk }}"
+                {% if request.GET.tags_group == tag.pk %}checked{% endif %}
+              />
+              <span>{{ tag.name }}</span>
+            </label>
+          </p>
+          {% endfor %}
+          <p class="col s6 m3 l3">
+            <label>
+              <input
+                type="radio"
+                id="filter_tag_all"
+                name="tags_group"
+                value="all"
+                {% if request.GET.tags_group == "all" %}checked{% endif %}
+              />
+              <span>全て</span>
+            </label>
+          </p>
+        </div>
+
+        <div class="row center">
+          <button class="btn waves-effect waves-light" type="submit" name="action">検索する
+            <i class="material-icons right">search</i>
+          </button>
+        </div>
 
       </form>
-
 
       <table>
         <tbody>
           {% for menu in menus_list %}
           <tr>
-            {# comment <td><p><label><input type="checkbox" id="{{menu.pk}}"/><span></span></label></p></td> #}
             <td>{{menu.name}}</td>
             <td class="right">{{menu.minutes}}分</td>
             <td class="right">¥{{menu.price}}</td>
             <td>{{menu.description}}</td>
+            <td><a href="/menu/{{menu.pk}}/" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">add</i></a></td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
 
-      <!-- <p style="text-align: center; font-size: 1.5rem;">お問合せ・ご予約</p>
-      <div style="text-align: center;">
-        <button class="btn waves-effect waves-light" type="submit" name="action"><a href="/contact/">
-          <i class="material-icons right">email</i>メールを送る</a>
-        </button>
-      </div> -->
-
     </div>
   </div>
 </div>
-
 
 {% endblock %}

@@ -57,7 +57,12 @@ urlpatterns = [
     path('tags/<str:pk>/', views.TagListView.as_view()),
 
     # Menu
-    path('menu/', views.MenuListView.as_view()),
+    path('menu/', views.MenuListView.as_view()), # メニュー一覧
+    path('menu/<str:pk>/', views.MenuDetailView.as_view()), # セレクトメニュー
+
+    # # calendar
+    # path('staff/<int:pk>/calendar/', views.StaffCalendar.as_view(), name='calendar'),
+    # path('calendar/<int:year>/<int:month>/<int:day>/', views.Calendar.as_view()),
 
     path('', views.IndexListView.as_view()),  # トップページ
 ]

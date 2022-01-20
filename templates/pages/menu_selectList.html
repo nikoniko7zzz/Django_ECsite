@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row">
+    <div class="col s12 m10 offset-m1">
+      <h1>Massage Menu</h1>
+        <table>
+          <tbody>
+            <tr>
+              <td>{{object.name}}</td>
+              <td class="right">{{object.minutes}}分</td>
+              <td class="right">¥{{object.price}}</td>
+              <td>{{object.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
