@@ -13,7 +13,6 @@ class MenuListView(ListView):
         # ラジオボタン表示
         context['categorys'] = MenuCategory.objects.all()
         context['tags'] = MenuTag.objects.all()
-
         return context
 
     def get_queryset(self):

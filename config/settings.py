@@ -212,7 +212,7 @@ TAX_RATE = 0.1
 STRIPE_API_SECRET_KEY = env('STRIPE_API_SECRET_KEY')
 
 # # スキーマ＆ドメイン
-# MY_URL = env.str('MY_URL')
+MY_URL = env('MY_URL')
 
 
 # カスタムユーザーモデルを使うための設定

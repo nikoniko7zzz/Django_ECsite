@@ -1,0 +1,50 @@
+
+<table class="table table-bordered text-center" style="table-layout: fixed;width: 100%" border="1">
+    <tr>
+        {# <td><a href="{% url 'booking:calendar' staff.pk before.year before.month before.day %}">前週</a></td> #}
+        <td>前週</td>
+        {% for day in days %}
+        {%comment%}
+            {% if day in public_holidays %}
+                <th style="background-color: yellow">{{ day | date:"d(D)" }}</th>
+            {% elif day.weekday == 5 %}
+                <th style="color: blue;">{{ day | date:"d(D)" }}</th>
+            {% elif day.weekday == 6 %}
+                <th style="color: red;">{{ day | date:"d(D)" }}</th>
+            {% else %}
+                <th>{{ day | date:"d(D)" }}</th>
+            {% endif %}
+        {%endcomment%}
+        <th>{{ day }}</th>
+        {% endfor %}
+        {# <td><a href="{% url 'booking:calendar' staff.pk next.year next.month next.day %}">次週</a></td> #}
+        <td>次週</td>
+    </tr>
+
+    {% for hour, schedules in calendar.items %}
+        <tr style="font-size:12px">
+            <td>
+                {{ hour }}:00
+            </td>
+            {% comment %}
+            {% for dt, book in schedules.items %}
+                <td>
+                    {% if dt <= today %}
+                        -
+                    {% elif book %}
+                        <a href="">○</a>
+                    {% else %}
+                        ×
+                    {% endif %}
+                </td>
+
+            {% endfor %}
+            {% endcomment %}
+            <td>
+                {{ hour }}:00
+            </td>
+        </tr>
+    {% endfor %}
+
+</table>
+
