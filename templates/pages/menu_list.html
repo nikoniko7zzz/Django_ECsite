@@ -67,6 +67,7 @@
 
       <table>
         <tbody>
+          <p>検索したメニューは {{ menus_list.count }} 件です</p>
           {% for menu in menus_list %}
           <tr>
             <td>{{menu.name}}</td>

@@ -34,7 +34,7 @@ class MenuListView(ListView):
             results = results.filter(category=q_category)
         elif q_tag != None:
             results = results.filter(tags=q_tag)
-
+        counts = results.count()
         return results
 
 
