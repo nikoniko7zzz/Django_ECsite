@@ -9,32 +9,21 @@ from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from django.views import generic
+from django.views.generic import TemplateView
 # from base.models import Store, Staff, Schedule
 
 # 他のビュー略
 
 
-class Calendar(generic.TemplateView):
+class Calendar(TemplateView):
     template_name = 'pages/calendar.html'
+    context_object_name = 'calendars_object'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # staff = get_object_or_404(Staff, pk=self.kwargs['pk'])
-        today = datetime.date.today()
-
-        # どの日を基準にカレンダーを表示するかの処理。
-        # 年月日の指定があればそれを、なければ今日からの表示。
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        if year and month and day:
-            base_date = datetime.date(year=year, month=month, day=day)
-        else:
-            base_date = today
 
         # カレンダーは1週間分表示するので、基準日から1週間の日付を作成しておく
-        days = [base_date + datetime.timedelta(days=day) for day in range(7)]
+        days = [datetime.date.today() + datetime.timedelta(days=day) for day in range(7)]
         start_day = days[0]
         end_day = days[-1]
 
@@ -45,23 +34,7 @@ class Calendar(generic.TemplateView):
             for day in days:
                 row[day] = True
             calendar[hour] = row
-            '''
-            calendar = {}の中身
-            {9: {datetime.date(2020, 1, 8): True,
-                datetime.date(2020, 1, 9): True,
-                datetime.date(2020, 1, 10): True,
-                datetime.date(2020, 1, 11): True,
-                datetime.date(2020, 1, 12): True,
-                datetime.date(2020, 1, 13): True,
-                datetime.date(2020, 1, 14): True},
-            10: {datetime.date(2020, 1, 8): True,
-                datetime.date(2020, 1, 9): True,
-                datetime.date(2020, 1, 10): True,
-                datetime.date(2020, 1, 11): True,
-                datetime.date(2020, 1, 12): True,
-                datetime.date(2020, 1, 13): True,
-                datetime.date(2020, 1, 14): True}, .....
-            '''
+
 
         # カレンダー表示する最初と最後の日時の間にある予約を取得する
         start_time = datetime.datetime.combine(start_day, datetime.time(hour=9, minute=0, second=0))
@@ -80,8 +53,24 @@ class Calendar(generic.TemplateView):
         context['end_day'] = end_day
         context['before'] = days[0] - datetime.timedelta(days=7)
         context['next'] = days[-1] + datetime.timedelta(days=1)
-        context['today'] = today
-        context['public_holidays'] = settings.PUBLIC_HOLIDAYS
+        # context['public_holidays'] = settings.PUBLIC_HOLIDAYS
         return context
 
 
+'''
+            calendar = {}の中身
+            {9: {datetime.date(2020, 1, 8): True,
+                datetime.date(2020, 1, 9): True,
+                datetime.date(2020, 1, 10): True,
+                datetime.date(2020, 1, 11): True,
+                datetime.date(2020, 1, 12): True,
+                datetime.date(2020, 1, 13): True,
+                datetime.date(2020, 1, 14): True},
+            10: {datetime.date(2020, 1, 8): True,
+                datetime.date(2020, 1, 9): True,
+                datetime.date(2020, 1, 10): True,
+                datetime.date(2020, 1, 11): True,
+                datetime.date(2020, 1, 12): True,
+                datetime.date(2020, 1, 13): True,
+                datetime.date(2020, 1, 14): True}, .....
+'''

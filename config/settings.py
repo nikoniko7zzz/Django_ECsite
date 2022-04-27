@@ -25,27 +25,8 @@ root = environ.Path(BASE_DIR / 'secrets')
 env.read_env(root('.env'))
 
 DEBUG = False
-if os.getenv('GAE_APPLICATION', None):
-    # GAE 本番環境
-    ALLOWED_HOSTS = ['selflove2022.an.r.appspot.com',]
-else:
-    # 開発環境
-    DEBUG = True
-    ALLOWED_HOSTS = ['*']
-    import yaml
-    with open(os.path.join(BASE_DIR, 'secrets', 'secret_dev.yaml')) as file:
-        objs = yaml.safe_load(file)
-        for obj in objs:
-            os.environ[obj] = objs[obj] #yamlのキーとバリュー
 
-
-# # ここはif文で出し分ける
-# # 本番環境用
-# # env.read_env(root('.env.prod'))
-
-# # 開発環境用
-# env.read_env(root('.env.dev'))
-
+ALLOWED_HOSTS = ["sakupand.herokuapp.com"]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -53,43 +34,11 @@ else:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')  # 変更
 
-# SECURITY WARNING: don't run with debug turned on in production!
-if os.getenv('GAE_APPLICATION', None):
-# GAE 本番環境
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['DB_NAME'],
-            'USER': os.environ['DB_USERNAME'],
-            'PASSWORD': os.environ['DB_USEPASS'],
-            'HOST': '/cloudsql/{}'.format(os.environ['DB_CONNECTION']),
-            #    'SECRET_KEY': os.environ['SECRET_KEY'],
-            # 'STRIPE_API_SECRET_KEY': os.environ['STRIPE_API_SECRET_KEY'],
-        }
-    }
-else:
-# 開発環境# 事前に./cloud_sql_proxyを実行してプロキシ経由でアクセスできるようにする必要がある。
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['DB_NAME'],
-            'USER': os.environ['DB_USERNAME'],
-            'PASSWORD': os.environ['DB_USEPASS'],
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-            #    'SECRET_KEY': os.environ['SECRET_KEY'],
-            # 'STRIPE_API_SECRET_KEY': os.environ['STRIPE_API_SECRET_KEY'],
-        }
-    }
-    '''
-    # 開発環境 sqlite3
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-    '''
+
+# # 追記
+# import dj_database_url
+# db_from_env = dj_database_url.config()
+# DATABASES['default'].update(db_from_env)
 
 
 # Application definition
@@ -112,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # heroku
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -135,21 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -190,19 +125,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #追加
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #追加
 # --- STATIC 設定 ---
-
-# --- GCS 画像 設定 ---
-from google.oauth2 import service_account
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'secrets', os.environ['GCS_CREDENTIALS_FILENAME'])
-)
-
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
-GS_BUCKET_NAME = os.environ['GCS_BUCKET_NAME']
-
-GS_PROJECT_ID = os.environ['GCS_PROJECT_ID']
-# --- GCS 画像 設定 ---
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # 消費税率
 TAX_RATE = 0.1
@@ -211,8 +134,8 @@ TAX_RATE = 0.1
 # Stripe API Key
 STRIPE_API_SECRET_KEY = env('STRIPE_API_SECRET_KEY')
 
-# # スキーマ＆ドメイン
-MY_URL = env('MY_URL')
+# # # スキーマ＆ドメイン
+# MY_URL = env('MY_URL')
 
 
 # カスタムユーザーモデルを使うための設定
@@ -246,3 +169,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER'] # 環境変数から読み込む
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 # --------- Gmail 送信設定 ---------
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    import django_heroku
+    django_heroku.settings(locals())

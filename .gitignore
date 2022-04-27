@@ -4,3 +4,10 @@
 db.sqlite3
 memo.yaml
 /staticfiles/
+
+local_settings.py
+
+# gcp用
+.gcloudignore
+app.yaml
+settings-gcp.py
